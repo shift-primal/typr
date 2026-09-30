@@ -87,7 +87,7 @@ jobs:
       - name: Trigger Coolify deploy
         run: |
           # shellcheck disable=SC2016 # expanded by the child shell, after varlock injects the secrets
-          pnpm exec varlock run -- sh -c 'curl -fsS -H "Authorization: Bearer $COOLIFY_API_TOKEN" "$COOLIFY_WEBHOOK_URL" > /dev/null'
+          pnpm exec varlock run -- sh -c 'curl -sS --fail-with-body -X POST -H "Authorization: Bearer $COOLIFY_API_TOKEN" "$COOLIFY_WEBHOOK_URL"'
 
       - name: Smoke check
         run: |
