@@ -25,6 +25,10 @@ ENV NODE_ENV=production \
 	APP_VERSION=${APP_VERSION} \
 	PORT=3000
 WORKDIR /app
+# Coolify's health check runs curl (or wget) inside the container; the slim image has neither.
+RUN apt-get update \
+	&& apt-get install -y --no-install-recommends curl \
+	&& rm -rf /var/lib/apt/lists/*
 COPY --from=varlock /usr/local/bin/varlock /usr/local/bin/varlock
 COPY --from=build --chown=node:node /app/.output ./.output
 COPY --from=build --chown=node:node /app/.env-flat/ ./
