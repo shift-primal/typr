@@ -1,7 +1,7 @@
 # 0001. Stack and architecture: one Node server on a Hetzner VPS with Neon Postgres
 
 **Date**: 2026-09-30
-**Status**: In Progress
+**Status**: Accepted
 
 ## Summary
 
@@ -124,7 +124,7 @@ Deploys: GitHub Actions ──▶ GHCR image ──▶ migrate ──▶ Coolify
 
 ## Follow-up
 
-- [ ] **Websocket echo spike first**, before feature 16 or 17 builds on it. It passes only when all four hold: (a) `/api/ws` upgrades and echoes under `pnpm dev`; (b) the same in the production container run locally; (c) the same over `wss://typr.haugestol.com` through Traefik, with the session read from the cookie; (d) `SIGTERM` sent to the container reaches the shutdown hook through `varlock run`. The handler must not be swallowed by the Start router. If (a) to (c) fail, switch to the fallback (a second entry point that Traefik routes `/api/ws` to); if only (d) fails, switch env loading to `varlock/auto-load`. Update this spec either way.
+- [x] **Websocket echo spike first** (passed 2026-09-30: a, b and d locally, c's transport half in production; c's session half waits on feature 7), before feature 16 or 17 builds on it. It passes only when all four hold: (a) `/api/ws` upgrades and echoes under `pnpm dev`; (b) the same in the production container run locally; (c) the same over `wss://typr.haugestol.com` through Traefik, with the session read from the cookie; (d) `SIGTERM` sent to the container reaches the shutdown hook through `varlock run`. The handler must not be swallowed by the Start router. If (a) to (c) fail, switch to the fallback (a second entry point that Traefik routes `/api/ws` to); if only (d) fails, switch env loading to `varlock/auto-load`. Update this spec either way.
 - [x] Create the Neon project in `aws-eu-central-1` with a `dev` branch, and in Bitwarden Secrets Manager the `typr` project, its secrets, and a machine account.
 - [ ] Before Typr opens beyond friends: split Bitwarden into dev and prod projects so a laptop cannot read production secrets, and point development at the Neon `dev` branch.
 - [ ] For feature 15 (error monitoring): `vite.config.ts` already marks `@sentry/*` as external to the Nitro bundle, so the runtime image would need those packages in `node_modules`; decide that when the error tracker is chosen.

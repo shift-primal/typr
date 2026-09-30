@@ -34,18 +34,18 @@ _These are recommendations to keep your build orderly, not requirements. Skip an
 
 ## Foundations
 
-### 1. Stack & architecture · in-progress · needs a decision
+### 1. Stack & architecture · in-progress
 The project is already scaffolded and runs. What is missing is a recorded stack decision, plus the parts the scaffold does not cover yet: the realtime transport for live matches, and hosting that supports it.
 **Done when:** a spec records the existing stack and the realtime and hosting choices, and the empty app deploys to a public URL.
 - [x] Scaffold the project (already in the repo)
-- [ ] Decide the stack (spec): `/architect stack & architecture`
-- [ ] Build it: `/develop stack & architecture`
+- [x] Decide the stack (spec): `/architect stack & architecture`
+- [x] Build it: `/develop stack & architecture`
   - [x] Align the scaffold with the spec (Node 24, pinned versions, postgres.js driver, dev only devtools)
   - [x] Env and secrets through varlock and Bitwarden (`.env.schema`, wrapped scripts)
   - [x] Health routes and websocket echo spike, local (spike checks a, b, d)
   - [x] Container and CI (Dockerfile, GitHub Actions build, migrate, deploy, smoke check)
   - [x] Deployed to `https://typr.haugestol.com` (Neon, Bitwarden, Hetzner, Coolify, DNS); merging to `main` deploys automatically
-  - [ ] Remaining manual checks in [verify.md](../specs/0001-stack-architecture/verify.md): `wss://` echo through Traefik (spike check c), Coolify single instance settings, local dev against Bitwarden
+  - [x] Manual checks in [verify.md](../specs/0001-stack-architecture/verify.md): `wss://` echo through Traefik (spike check c, transport half), Coolify single instance, local dev against Bitwarden
 spec [0001](../specs/0001-stack-architecture/index.md) · code in `./`
 
 ### 2. Coding standards & tooling
