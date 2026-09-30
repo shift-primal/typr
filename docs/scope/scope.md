@@ -44,7 +44,8 @@ The project is already scaffolded and runs. What is missing is a recorded stack 
   - [x] Env and secrets through varlock and Bitwarden (`.env.schema`, wrapped scripts)
   - [x] Health routes and websocket echo spike, local (spike checks a, b, d)
   - [x] Container and CI (Dockerfile, GitHub Actions build, migrate, deploy, smoke check)
-  - [ ] Deployed to `https://typr.haugestol.com` (Neon, Bitwarden, Hetzner, Coolify, DNS; spike check c). Neon project `typr` and its `dev` branch exist; the rest is yours
+  - [x] Deployed to `https://typr.haugestol.com` (Neon, Bitwarden, Hetzner, Coolify, DNS); merging to `main` deploys automatically
+  - [ ] Remaining manual checks in [verify.md](../specs/0001-stack-architecture/verify.md): `wss://` echo through Traefik (spike check c), Coolify single instance settings, local dev against Bitwarden
 spec [0001](../specs/0001-stack-architecture/index.md) · code in `./`
 
 ### 2. Coding standards & tooling
