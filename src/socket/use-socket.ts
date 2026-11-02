@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 
+import { handleServerMessage } from "#/features/room/handle-message.ts";
 import {
 	type ClientMessage,
 	type ServerMessage,
 	serverMessage,
 } from "#/shared/protocol";
-import { handleServerMessage, roomStore } from "#/stores/room-store";
 
 type Reply = Extract<ServerMessage, { requestId: number }>;
 
@@ -38,8 +38,6 @@ export const useSocket = () => {
 	useEffect(() => {
 		const url = `${location.protocol === "https:" ? "wss" : "ws"}://${location.host}/api/ws`;
 
-		// Opening the socket before the document finishes loading makes Firefox
-		// abort the handshake ("interrupted while the page was loading").
 		let socket: WebSocket | null = null;
 
 		const rejectAll = (reason: string) => {
@@ -82,7 +80,6 @@ export const useSocket = () => {
 
 			socket.onclose = () => {
 				setStatus("closed");
-				roomStore.actions.reset();
 				rejectAll("socket closed");
 			};
 		};

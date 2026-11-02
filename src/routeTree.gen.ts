@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SoloRouteImport } from './routes/solo'
 import { Route as RoomRoomIdRouteImport } from './routes/room/$roomId'
+import { Route as RoomEnterRouteImport } from './routes/room/enter'
 import { Route as ApiHealthIndexRouteImport } from './routes/api/health/index'
 import { Route as ApiHealthDbRouteImport } from './routes/api/health/db'
 
@@ -30,6 +31,11 @@ const RoomRoomIdRoute = RoomRoomIdRouteImport.update({
   path: '/room/$roomId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RoomEnterRoute = RoomEnterRouteImport.update({
+  id: '/room/enter',
+  path: '/room/enter',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiHealthIndexRoute = ApiHealthIndexRouteImport.update({
   id: '/api/health/',
   path: '/api/health/',
@@ -45,6 +51,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/solo': typeof SoloRoute
   '/room/$roomId': typeof RoomRoomIdRoute
+  '/room/enter': typeof RoomEnterRoute
   '/api/health/db': typeof ApiHealthDbRoute
   '/api/health/': typeof ApiHealthIndexRoute
 }
@@ -52,6 +59,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/solo': typeof SoloRoute
   '/room/$roomId': typeof RoomRoomIdRoute
+  '/room/enter': typeof RoomEnterRoute
   '/api/health/db': typeof ApiHealthDbRoute
   '/api/health': typeof ApiHealthIndexRoute
 }
@@ -60,19 +68,33 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/solo': typeof SoloRoute
   '/room/$roomId': typeof RoomRoomIdRoute
+  '/room/enter': typeof RoomEnterRoute
   '/api/health/db': typeof ApiHealthDbRoute
   '/api/health/': typeof ApiHealthIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/solo' | '/room/$roomId' | '/api/health/db' | '/api/health/'
+  fullPaths:
+    | '/'
+    | '/solo'
+    | '/room/$roomId'
+    | '/room/enter'
+    | '/api/health/db'
+    | '/api/health/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/solo' | '/room/$roomId' | '/api/health/db' | '/api/health'
+  to:
+    | '/'
+    | '/solo'
+    | '/room/$roomId'
+    | '/room/enter'
+    | '/api/health/db'
+    | '/api/health'
   id:
     | '__root__'
     | '/'
     | '/solo'
     | '/room/$roomId'
+    | '/room/enter'
     | '/api/health/db'
     | '/api/health/'
   fileRoutesById: FileRoutesById
@@ -81,6 +103,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SoloRoute: typeof SoloRoute
   RoomRoomIdRoute: typeof RoomRoomIdRoute
+  RoomEnterRoute: typeof RoomEnterRoute
   ApiHealthDbRoute: typeof ApiHealthDbRoute
   ApiHealthIndexRoute: typeof ApiHealthIndexRoute
 }
@@ -108,6 +131,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RoomRoomIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/room/enter': {
+      id: '/room/enter'
+      path: '/room/enter'
+      fullPath: '/room/enter'
+      preLoaderRoute: typeof RoomEnterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/health/': {
       id: '/api/health/'
       path: '/api/health'
@@ -129,6 +159,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SoloRoute: SoloRoute,
   RoomRoomIdRoute: RoomRoomIdRoute,
+  RoomEnterRoute: RoomEnterRoute,
   ApiHealthDbRoute: ApiHealthDbRoute,
   ApiHealthIndexRoute: ApiHealthIndexRoute,
 }

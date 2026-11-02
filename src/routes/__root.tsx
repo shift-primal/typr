@@ -8,7 +8,7 @@ import {
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 
 import { Toaster } from "#/components/ui/toast";
-import { SocketProvider } from "#/hooks/socket-provider";
+import { SocketProvider } from "#/socket/socket-provider.tsx";
 
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
 

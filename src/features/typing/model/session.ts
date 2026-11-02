@@ -1,10 +1,13 @@
-import { generateText } from "#/game/text";
+import { generateText } from "#/features/typing/model/text";
 
 export type TypingState = {
-	target: string;
-	typed: string;
+	words: string[];
+	attempts: string[];
+	current: string;
+
 	startedAt: number | null;
 	finishedAt: number | null;
+
 	keystrokes: number;
 	errors: number;
 };
@@ -44,6 +47,8 @@ export const applyInput = (
 		finishedAt: typed === state.target ? now : null,
 	};
 };
+
+export const typeChar = ()
 
 export const charStatus = (state: TypingState, idx: number): CharacterStatus =>
 	idx >= state.typed.length

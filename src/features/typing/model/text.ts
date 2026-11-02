@@ -1,6 +1,6 @@
-import { words } from "#/game/words";
+import { words } from "#/features/typing/model/word-list";
 
-export const generateText = (count: number = 100): string => {
+export const generateText = (count: number = 100): string[] => {
 	let selectedWords = [];
 
 	for (let i = 0; i < count; i++) {
@@ -8,5 +8,5 @@ export const generateText = (count: number = 100): string => {
 		selectedWords.push(words[randIdx]);
 	}
 
-	return selectedWords.join(" ");
+	return selectedWords;
 };

@@ -1,4 +1,4 @@
-export const InvisibleInput = ({
+export const HiddenInput = ({
 	ref,
 	value,
 	onChange,

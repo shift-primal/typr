@@ -1,9 +1,8 @@
-import { RotateCcw } from "lucide-react";
+import { RotateCcw, Timer } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
-import { InvisibleInput } from "#/components/invisible-input";
-import { TargetText } from "#/components/target-text";
-import { Timer } from "#/components/timer";
+import { HiddenInput } from "#/features/typing/ui/hidden-input.tsx";
+import { WordList } from "#/features/typing/ui/word-list.tsx";
 import { applyInput, createTyping, type TypingState } from "#/game/typing";
 
 const blankTyping = (): TypingState => ({
@@ -29,8 +28,10 @@ export const Typing = () => {
 		inputRef.current?.focus();
 	};
 
-	const handleChange = (value: string) =>
+	const handleChange = (value: string) => {
+		console.log(value);
 		setTypingState((p) => applyInput(p, value, Date.now()));
+	};
 
 	return (
 		<div
@@ -39,12 +40,12 @@ export const Typing = () => {
 				inputRef.current?.focus();
 			}}
 		>
-			<InvisibleInput
+			<HiddenInput
 				ref={inputRef}
 				value={typingState.typed}
 				onChange={handleChange}
 			/>
-			<TargetText state={typingState} />
+			<WordList state={typingState} />
 			<div
 				id="ui"
 				className="absolute bottom-10 right-1/2 translate-1/2 w-md flex items-center justify-between"
@@ -58,7 +59,7 @@ export const Typing = () => {
 					onClick={restart}
 					className="border border-foreground p-.5 cursor-pointer"
 				>
-					<RotateCcw />
+					<RotateCcw className="size-5" />
 				</button>
 			</div>
 		</div>

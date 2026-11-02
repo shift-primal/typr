@@ -21,8 +21,8 @@ import {
 } from "#/components/ui/field";
 import { Input } from "#/components/ui/input";
 import { toast } from "#/components/ui/toast";
-import { useSocketContext } from "#/hooks/socket-provider";
-import type { RequestMessage, Socket } from "#/hooks/use-socket";
+import { useSocketContext } from "#/socket/socket-provider.tsx";
+import type { RequestMessage, Socket } from "#/socket/use-socket.ts";
 
 const nameSchema = z
 	.string()
