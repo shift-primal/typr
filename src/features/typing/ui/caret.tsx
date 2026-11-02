@@ -1,10 +1,3 @@
-import { cn } from "cn";
-
-export const Caret = ({ i, typed }: { i: number; typed: string }) => (
-	<div
-		className={cn(
-			i === typed.length && "bg-yellow-300 animate-blink -z-50",
-			"inset-0 absolute",
-		)}
-	></div>
+export const Caret = () => (
+	<span className="absolute inset-0 -z-50 animate-blink bg-yellow-300" />
 );

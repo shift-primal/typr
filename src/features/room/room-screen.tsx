@@ -1,8 +1,8 @@
 import { useSelector } from "@tanstack/react-store";
 
-import { roomStore } from "#/stores/room-store";
+import { roomStore } from "#/features/room/room-store";
 
-export const Room = () => {
+export const RoomScreen = () => {
 	const roomId = useSelector(roomStore, (s) => s.roomId);
 	const players = useSelector(roomStore, (s) => s.players);
 

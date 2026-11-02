@@ -1,33 +1,27 @@
 import { cn } from "cn";
 
+import type { CharStatus } from "#/features/typing/model/session";
 import { Caret } from "#/features/typing/ui/caret";
-import { charStatus, type TypingState } from "#/game/typing.ts";
+
+const styles: Record<CharStatus, string> = {
+	pending: "text-muted-foreground",
+	correct: "text-success",
+	incorrect: "text-destructive",
+	missed: "text-muted-foreground underline decoration-destructive",
+	extra: "text-destructive/60",
+};
 
 export const Character = ({
 	char,
-	i,
-	state,
+	status,
+	caret,
 }: {
 	char: string;
-	i: number;
-	state: TypingState;
-}) => {
-	const styles = {
-		pending: "text-muted-foreground",
-		correct: "text-success",
-		incorrect: "text-destructive",
-	};
-
-	return (
-		<div
-			key={i}
-			className={cn(
-				[styles[charStatus(state, i)]].filter(Boolean).join(" "),
-				"inline relative",
-			)}
-		>
-			<Caret i={i} typed={state.typed} />
-			<span>{char}</span>
-		</div>
-	);
-};
+	status: CharStatus;
+	caret: boolean;
+}) => (
+	<span className={cn(styles[status], "relative")}>
+		{caret && <Caret />}
+		{char}
+	</span>
+);

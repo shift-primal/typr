@@ -1,6 +1,6 @@
 import { createContext, use, type ReactNode } from "react";
 
-import { useSocket, type Socket } from "#/hooks/use-socket";
+import { useSocket, type Socket } from "#/socket/use-socket";
 
 const SocketContext = createContext<Socket | null>(null);
 

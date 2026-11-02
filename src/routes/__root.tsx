@@ -8,6 +8,7 @@ import {
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 
 import { Toaster } from "#/components/ui/toast";
+import { RoomSync } from "#/features/room/room-sync";
 import { SocketProvider } from "#/socket/socket-provider.tsx";
 
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
@@ -25,6 +26,7 @@ const RootDocument = ({ children }: { children: React.ReactNode }) => (
 		</head>
 		<body>
 			<SocketProvider>
+				<RoomSync />
 				<main className="h-dvh">{children}</main>
 				<Toaster />
 			</SocketProvider>

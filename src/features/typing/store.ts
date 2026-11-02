@@ -1,33 +1,22 @@
 import { createStore } from "@tanstack/react-store";
 
-import type { Player, ServerMessage } from "#/shared/protocol";
+import {
+	backspace,
+	commitWord,
+	createSession,
+	typeChar,
+} from "#/features/typing/model/session";
+import { generateText } from "#/features/typing/model/text";
 
-type RoomState = {
-	roomId: string | null;
-	players: Player[];
-};
+export const createTypingStore = () =>
+	createStore(createSession([]), ({ setState }) => ({
+		typeChar: (char: string) => setState((s) => typeChar(s, char, Date.now())),
 
-const initialRoomState: RoomState = { roomId: null, players: [] };
+		backspace: () => setState(backspace),
 
-export const createRoomStore = () =>
-	createStore(initialRoomState, ({ setState }) => ({
-		joined: (roomId: string, players: Player[]) =>
-			setState(() => ({ roomId, players })),
+		commitWord: () => setState((s) => commitWord(s, Date.now())),
 
-		playerJoined: (player: Player) =>
-			setState((s) =>
-				s.players.some((p) => p.id === player.id)
-					? s
-					: { ...s, players: [...s.players, player] },
-			),
-
-		playerLeft: (id: string) =>
-			setState((s) => ({
-				...s,
-				players: s.players.filter((p) => p.id !== id),
-			})),
-
-		reset: () => setState(() => initialRoomState),
+		restart: () => setState(() => createSession(generateText())),
 	}));
 
-export const roomStore = createRoomStore();
+export const typingStore = createTypingStore();

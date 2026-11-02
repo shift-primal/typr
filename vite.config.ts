@@ -27,6 +27,7 @@ const config = defineConfig({
 		options: { typeAware: true, typeCheck: true },
 	},
 	resolve: { tsconfigPaths: true },
+	test: { include: ["src/**/*.test.{ts,tsx}"] },
 	plugins: lazyPlugins(() =>
 		process.env.VITEST
 			? []

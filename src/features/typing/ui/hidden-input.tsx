@@ -1,11 +1,13 @@
 export const HiddenInput = ({
 	ref,
 	value,
-	onChange,
+	onType,
+	onBackspace,
 }: {
 	ref?: React.Ref<HTMLInputElement>;
 	value: string;
-	onChange: (value: string) => void;
+	onType: (text: string) => void;
+	onBackspace: () => void;
 }) => {
 	const guardKeys = (e: React.KeyboardEvent<HTMLInputElement>) => {
 		if (e.ctrlKey || e.metaKey) {
@@ -14,12 +16,14 @@ export const HiddenInput = ({
 		}
 
 		if (e.key === "Backspace") {
-			const start = e.currentTarget.selectionStart ?? 0;
-			const end = e.currentTarget.selectionEnd ?? 0;
-			if (end - start > 1) {
-				e.preventDefault();
-			}
+			e.preventDefault();
+			onBackspace();
 		}
+	};
+
+	const handleChange = (next: string) => {
+		if (next.length < value.length) onBackspace();
+		else if (next.startsWith(value)) onType(next.slice(value.length));
 	};
 
 	const resetSelection = (e: React.SyntheticEvent<HTMLInputElement>) => {
@@ -32,7 +36,7 @@ export const HiddenInput = ({
 			ref={ref}
 			className="absolute inset-0 w-full h-full opacity-0 cursor-default pointer-events-none z-10"
 			value={value}
-			onChange={(e) => onChange(e.target.value)}
+			onChange={(e) => handleChange(e.target.value)}
 			onKeyDown={guardKeys}
 			onSelect={resetSelection}
 			type="text"

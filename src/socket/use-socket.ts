@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 
-import { handleServerMessage } from "#/features/room/handle-message.ts";
 import {
 	type ClientMessage,
 	type ServerMessage,
@@ -24,12 +23,18 @@ export type RequestMessage = DistributiveOmit<
 	"requestId"
 >;
 
+export type SocketListener = {
+	onMessage?: (message: ServerMessage) => void;
+	onClose?: () => void;
+};
+
 const REQUEST_TIMEOUT_MS = 5000;
 
 export const useSocket = () => {
 	const ws = useRef<WebSocket | null>(null);
 	const pending = useRef(new Map<number, Pending>());
 	const nextId = useRef(0);
+	const listeners = useRef(new Set<SocketListener>());
 
 	const [status, setStatus] = useState<"connecting" | "open" | "closed">(
 		"connecting",
@@ -69,7 +74,7 @@ export const useSocket = () => {
 							}
 						}
 
-						handleServerMessage(result.data);
+						for (const l of listeners.current) l.onMessage?.(result.data);
 					} else {
 						console.warn("Invalid message:", result.error);
 					}
@@ -81,6 +86,7 @@ export const useSocket = () => {
 			socket.onclose = () => {
 				setStatus("closed");
 				rejectAll("socket closed");
+				for (const l of listeners.current) l.onClose?.();
 			};
 		};
 
@@ -120,7 +126,14 @@ export const useSocket = () => {
 			socket.send(JSON.stringify({ ...message, requestId: id }));
 		});
 
-	return { status, send, request };
+	const subscribe = (listener: SocketListener) => {
+		listeners.current.add(listener);
+		return () => {
+			listeners.current.delete(listener);
+		};
+	};
+
+	return { status, send, request, subscribe };
 };
 
 export type Socket = ReturnType<typeof useSocket>;

@@ -20,9 +20,8 @@ import {
 	FieldSet,
 } from "#/components/ui/field";
 import { Input } from "#/components/ui/input";
-import { toast } from "#/components/ui/toast";
-import { useSocketContext } from "#/socket/socket-provider.tsx";
-import type { RequestMessage, Socket } from "#/socket/use-socket.ts";
+import { createRoom, joinRoom } from "#/features/room/room-api";
+import { useSocketContext } from "#/socket/socket-provider";
 
 const nameSchema = z
 	.string()
@@ -31,39 +30,6 @@ const nameSchema = z
 const roomIdSchema = z
 	.string()
 	.length(4, 'Invalid Room ID. Valid Format: "A1B2"');
-
-const requestRoom = async (
-	socket: Socket,
-	message: RequestMessage,
-	successTitle: string,
-) => {
-	try {
-		const reply = await socket.request(message);
-
-		if (reply.type === "room_error") {
-			toast.add({ title: "Could not enter room", description: reply.message });
-			return;
-		}
-
-		toast.add({
-			title: successTitle,
-			description: `Successfully entered room ${reply.roomId}`,
-		});
-
-		return reply.roomId;
-	} catch (e) {
-		toast.add({
-			title: "Connection problem",
-			description: e instanceof Error ? e.message : String(e),
-		});
-	}
-};
-
-const joinRoom = (socket: Socket, roomId: string, name: string) =>
-	requestRoom(socket, { type: "join_room", roomId, name }, "Joined room!");
-
-const createRoom = (socket: Socket, name: string) =>
-	requestRoom(socket, { type: "create_room", name }, "Created room!");
 
 export const EnterRoom = () => {
 	const socket = useSocketContext();

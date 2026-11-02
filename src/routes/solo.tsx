@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import { PageWrapper } from "#/components/layout/page-wrapper.tsx";
-import { Typing } from "#/components/typing.tsx";
+import { SoloScreen } from "#/features/solo/solo-screen";
 
 export const Route = createFileRoute("/solo")({
 	component: RouteComponent,
@@ -10,7 +10,7 @@ export const Route = createFileRoute("/solo")({
 function RouteComponent() {
 	return (
 		<PageWrapper>
-			<Typing />
+			<SoloScreen />
 		</PageWrapper>
 	);
 }
